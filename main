@@ -2,13 +2,28 @@
 #include <conio.h>
 #include <string.h>
 #include <math.h>
-#include<stdlib.h>
+#include <stdlib.h>
 
+int i;
+void cust_entry();
+int getcust_id();
+void ventry(char t[], int code);
 void bill_menu();
 void medicine_menu();
 void customer_menu();
 void main_menu();
 void login();
+struct customer
+{
+	int cust_id;
+	char cust_name[30];
+	char city[20];
+	char mob_no[11];
+	char email[50];
+};
+
+struct customer temp_c;
+
 
 int main()
 {
@@ -21,7 +36,7 @@ void login()
 {
 	int a = 0, i = 0;
 	char uname[10], c = ' ';
-	char pword[10], code[10];
+	char pword[10];
 	char user[10] = "admin";
 	char pass[10] = "admin";
 	do
@@ -56,7 +71,6 @@ void login()
 				i++;
 			}
 		}
-		i = 0;
 		if (strcmp(uname, "admin") == 0 && strcmp(pword, "admin") == 0)
 		{
 			printf("\nWELCOME TO MEDICAL STORE MANAGEMENT SYSTEM!!!    YOUR LOGIN IS SUCCESSFUL");
@@ -156,15 +170,13 @@ void customer_menu()
 		switch (ch)
 		{
 		case 'A':
-			// animation();
-			//  cust_entry();
+			cust_entry();
+			system("cls");
 			break;
 		case 'U':
-			// animation();
 			//  cust_update();
 			break;
 		case 'L':
-			// animation();
 			//  cust_list();
 			break;
 		case 'S':
@@ -256,4 +268,122 @@ void bill_menu()
 			system("cls");
 		}
 	} while (ch != 'M');
+}
+void ventry(char t[], int code)
+{
+	int i = 0;
+	if (code == 0)
+	{
+		while ((t[i] = getch()) != '\r' && i < 30)
+			if ((t[i] >= 97 && t[i] <= 122) || (t[i] >= 65 && t[i] <= 90) || t[i] == 32 || t[i] == '_')
+			{
+				printf("%c", t[i]);
+				i++;
+			}
+			else if (t[i] == 8 && i > 0)
+			{
+				printf("%c%c%c", 8, 32, 8);
+				i--; // Length counter is decremented.
+			}
+		printf("\n");
+	}
+	else if (code == 1)
+	{
+		while ((t[i] = getch()) != '\r' && i < 10)
+			if ((t[i] >= 48 && t[i] <= 57) || t[i] == 46 || t[i] == '-')
+			{
+				printf("%c", t[i]);
+				i++;
+			}
+			else if (t[i] == 8 && i > 0)
+			{
+				printf("%c%c%c", 8, 32, 8);
+				i--; // Length counter is decremented.
+			}
+		printf("\n");
+	}
+	else if (code == 2)
+	{
+		while ((t[i] = getch()) != '\r' && i < 30)
+			if ((t[i] >= 97 && t[i] <= 122) || (t[i] >= 65 && t[i] <= 90) || (t[i] >= 48 && t[i] <= 57) || t[i] == 32 /*|| t[i]==8*/ || t[i] == '@' || t[i] == '.')
+			{
+				printf("%c", t[i]);
+				i++;
+			}
+			else if (t[i] == 8 && i > 0)
+			{
+				printf("%c%c%c", 8, 32, 8);
+				i--; // Length counter is decremented.
+			}
+		printf("\n");
+	}
+
+	t[i] = '\0';
+}
+int getcust_id()
+{
+	FILE *fp;
+	fp = fopen("customer.dat", "r");
+	if (fp == NULL)
+	{
+		printf("\nData not Found.....");
+		getch();
+	}
+	else
+	{
+		temp_c.cust_id = 100;
+		rewind(fp);
+		while (fscanf(fp, "%d %s %s %s %s", &temp_c.cust_id, temp_c.cust_name, temp_c.mob_no, temp_c.city, temp_c.email) != EOF)
+		{
+		}
+	}
+	fclose(fp);
+	return temp_c.cust_id + 1;
+}
+void cust_entry()
+{
+	char ch;
+	int id;
+	FILE *fp;
+	system("cls");
+	fp = fopen("customer.dat", "a");
+	if (fp == NULL)
+	{
+		printf("\n Can not open file!!");
+		exit(0);
+	}
+	system("cls");
+	ch = 'y';
+	while (ch == 'y')
+	{
+		system("cls");
+		printf("----------------\n");
+		printf(" CUSTOMER ENTRY \n");
+		printf("----------------\n");
+		temp_c.cust_id = getcust_id();
+		printf("CUSTOMER ID :%d\n", temp_c.cust_id);
+		printf("CUSTOMER NAME : ");
+		ventry(temp_c.cust_name, 0);
+		printf("CITY        : ");
+		ventry(temp_c.city, 0);
+		printf("CONTACT NO.   : ");
+		ventry(temp_c.mob_no, 1);
+		printf("EMAIL ID    : ");
+		gets(temp_c.email);
+		printf("Save Cancel \n");
+		// printf("Cancel");
+		printf("Press First charecter for the operation : ");
+		ch = getch();
+		if (ch == 's' || ch == 'S')
+		{
+			fprintf(fp, "%d %s %s %s %s\n", temp_c.cust_id, temp_c.cust_name, temp_c.mob_no, temp_c.city, temp_c.email);
+			fprintf(fp, "\n");
+			fflush(stdin);
+			system("cls");
+			printf("Customer Added Successfully!!!!!\n");
+			printf("More entries  [y/n] ");
+			ch = getche();
+		}
+	}
+	fclose(fp);
 }
