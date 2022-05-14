@@ -8,7 +8,7 @@ void bill_menu();
 void medicine_menu();
 void customer_menu();
 void main_menu();
-void login();;
+void login();
 
 int main()
 {
