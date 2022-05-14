@@ -1,0 +1,259 @@
+#include <stdio.h>
+#include <conio.h>
+#include <string.h>
+#include <math.h>
+#include<stdlib.h>
+
+void bill_menu();
+void medicine_menu();
+void customer_menu();
+void main_menu();
+void login();;
+
+int main()
+{
+	system("cls");
+	login();
+	return 0;
+}
+
+void login()
+{
+	int a = 0, i = 0;
+	char uname[10], c = ' ';
+	char pword[10], code[10];
+	char user[10] = "admin";
+	char pass[10] = "admin";
+	do
+	{
+		system("cls");
+		printf("-----------------\n");
+		printf("      LOGIN\n");
+		printf("-----------------\n");
+		printf("USERNAME=>");
+		scanf("%s", &uname);
+		printf("PASSWORD=>");
+		while (i < 10)
+		{
+			pword[i] = getch();
+			c = pword[i];
+			if (c == 13)
+			{
+				pword[i] = '\0';
+				break;
+			}
+			else if (c == 8)
+			{
+				if (i > 0)
+				{
+					i--;
+					printf("\b \b");
+				}
+			}
+			else
+			{
+				printf("*");
+				i++;
+			}
+		}
+		i = 0;
+		if (strcmp(uname, "admin") == 0 && strcmp(pword, "admin") == 0)
+		{
+			printf("\nWELCOME TO MEDICAL STORE MANAGEMENT SYSTEM!!!    YOUR LOGIN IS SUCCESSFUL");
+			printf("\nPress any key to continue...");
+			getch(); // holds the screen
+			system("cls");
+			main_menu();
+			break;
+		}
+		else
+		{
+			system("cls");
+			printf("\nSORRY !!!!  LOGIN IS UNSUCESSFUL");
+			a++;
+			sleep(2);
+		}
+	} while (a <= 2);
+	if (a > 2)
+	{
+		system("cls");
+		printf("\nSorry you have entered the wrong username and password for four times!!!");
+		sleep(2);
+		exit(0);
+	}
+	system("cls");
+}
+void main_menu()
+{
+	char ch;
+	system("cls");
+	do
+	{
+		printf("--------------------------------\n");
+		printf("Medical Store Management System\n");
+		printf("--------------------------------\n");
+		printf("*Customer Info\n");
+		printf("*Medicine Info\n");
+		printf("*Bill Info\n");
+		printf("*Exit\n");
+		printf("First Character for further Menu:  ");
+
+		ch = toupper(getche());
+		switch (ch)
+		{
+
+		case 'C':
+			customer_menu();
+			break;
+		case 'M':
+			medicine_menu();
+			break;
+		case 'B':
+			bill_menu();
+			break;
+		case 'E':
+			printf("\nDo you want to exit now? Y/N : ");
+			sleep(1);
+			ch = (getche());
+			ch = toupper(ch);
+			if (ch == 'Y')
+			{
+				system("cls");
+				printf("Please wait.....");
+				sleep(2);
+				exit(0);
+			}
+			else
+			{
+				main_menu();
+			}
+
+		default:
+			printf("\nPlese Enter right character ONLY (C,M,B,E).");
+			sleep(2000);
+			system("cls");
+		}
+	} while (ch != 'E');
+}
+
+void customer_menu()
+{
+	char ch;
+	system("cls");
+	do
+	{
+		printf("---------------\n");
+		printf(" Customer Menu\n");
+		printf("---------------\n");
+		printf("*Add New Customer\n");
+		printf("*Update Customer\n");
+		printf("*Search Customer\n");
+		printf("*List of Existing Customer\n");
+		printf("*Main Menu\n");
+		printf("Press First Character for further Menu:  ");
+
+		ch = toupper(getche());
+		switch (ch)
+		{
+		case 'A':
+			// animation();
+			//  cust_entry();
+			break;
+		case 'U':
+			// animation();
+			//  cust_update();
+			break;
+		case 'L':
+			// animation();
+			//  cust_list();
+			break;
+		case 'S':
+			// cust_search();
+			break;
+		case 'M':
+			main_menu();
+			break;
+		default:
+			printf("Plese Enter right character ONLY (A,U,L,S,M).");
+			sleep(2);
+			system("cls");
+		}
+	} while (ch != 'M');
+}
+void medicine_menu()
+{
+	char ch;
+	system("cls");
+	do
+	{
+		printf("---------------\n");
+		printf("Medicine Menu\n");
+		printf("---------------\n");
+		printf("*Purchase New Medicine\n");
+		printf("*Sale Medicine\n");
+		printf("*Stock of Medicine\n");
+		printf("*Search Medicine\n");
+		printf("*Main Menu\n");
+		printf("Press First Character for further Menu:  ");
+
+		ch = toupper(getche());
+		switch (ch)
+		{
+		case 'P':
+			// medi_entry();
+			break;
+		case 'S':
+			// medi_sale();
+			break;
+		case 'C':
+			// stock();
+			break;
+		case 'A':
+			// medi_search();
+			break;
+		case 'M':
+			main_menu();
+			break;
+		default:
+			printf("Plese Enter right character ONLY (P,S,C,A,M).");
+			sleep(2);
+			system("cls");
+		}
+	} while (ch != 'M');
+}
+void bill_menu()
+{
+	char ch;
+	system("cls");
+	do
+	{
+		printf("-----------\n");
+		printf("Bill Menu\n ");
+		printf("-----------\n");
+		printf("*Bill\n");
+		printf("*Last Bill History\n");
+		printf("*Search Bill\n");
+		printf("*Main Menu\n");
+		printf("Press First Character for further Menu:  ");
+
+		ch = toupper(getche());
+		switch (ch)
+		{
+
+		case 'B':
+			break;
+		case 'L':
+			break;
+		case 'S':
+			break;
+		case 'M':
+			main_menu();
+			break;
+
+		default:
+			printf("Plese Enter right character ONLY (B,L,S,M).");
+			sleep(2);
+			system("cls");
+		}
+	} while (ch != 'M');
+}
